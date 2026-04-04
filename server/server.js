@@ -8,6 +8,7 @@ import authRoute from "./routes/auth.route.js";
 import aiRoute from "./routes/ai.route.js";
 import chatRoute from "./routes/chat.route.js";
 import notificationRoute from "./routes/notification.route.js";
+import reviewRoute from "./routes/review.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -35,6 +36,7 @@ app.use("/api/applications", applicationRoute);
 app.use("/api/ai", aiRoute);
 app.use("/api/chat", chatRoute);
 app.use("/api/notifications", notificationRoute);
+app.use("/api/reviews", reviewRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

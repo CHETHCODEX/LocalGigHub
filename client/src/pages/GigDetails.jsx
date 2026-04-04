@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import ReviewsSection from "../components/reviews/ReviewsSection";
+import StarRating from "../components/reviews/StarRating";
 import {
   Clock,
   MapPin,
@@ -215,9 +217,25 @@ const GigDetails = () => {
                 </span>
               )}
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 leading-tight">
               {gig.title}
             </h1>
+            {gig.starNumber > 0 && (
+              <div className="flex items-center gap-2 mb-2">
+                <StarRating
+                  rating={
+                    gig.starNumber > 0
+                      ? Math.round((gig.totalStars / gig.starNumber) * 10) / 10
+                      : 0
+                  }
+                  size={18}
+                />
+                <span className="text-sm text-gray-400">
+                  {(gig.totalStars / gig.starNumber).toFixed(1)} ({gig.starNumber}{" "}
+                  review{gig.starNumber !== 1 ? "s" : ""})
+                </span>
+              </div>
+            )}
             {owner && (
               <div className="mb-4 flex flex-wrap items-center gap-2">
                 <span className="text-sm text-gray-300">
@@ -385,6 +403,9 @@ const GigDetails = () => {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <ReviewsSection gigId={id} />
       </motion.div>
 
       {/* Apply Modal */}

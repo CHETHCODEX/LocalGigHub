@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Clock, CheckCircle, XCircle, Sparkles } from "lucide-react";
+import { Clock, CheckCircle, XCircle, Sparkles, Star } from "lucide-react";
+import ReviewModal from "../components/reviews/ReviewModal";
 import getCurrentUser from "../utils/getCurrentUser";
 import newRequest from "../utils/newRequest";
 import { AIRecommendations, SkillExtractor } from "../components/ai";
@@ -12,6 +13,8 @@ const StudentDashboard = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userLocation, setUserLocation] = useState(null);
+  const [reviewStatuses, setReviewStatuses] = useState({});
+  const [reviewModalApp, setReviewModalApp] = useState(null);
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
@@ -30,6 +33,28 @@ const StudentDashboard = () => {
       .catch(() => setUserLocation(null));
   }, []);
 
+  // Check review status for completed applications
+  useEffect(() => {
+    const checkReviews = async () => {
+      const completedApps = applications.filter(
+        (app) => app.status === "completed",
+      );
+      const statuses = {};
+      await Promise.all(
+        completedApps.map(async (app) => {
+          try {
+            const res = await newRequest.get(`/reviews/check/${app._id}`);
+            statuses[app._id] = res.data;
+          } catch {
+            statuses[app._id] = { hasReviewed: false };
+          }
+        }),
+      );
+      setReviewStatuses(statuses);
+    };
+    if (applications.length > 0) checkReviews();
+  }, [applications]);
+
   const fetchApplications = async () => {
     try {
       setLoading(true);
@@ -44,6 +69,12 @@ const StudentDashboard = () => {
 
   const getStatusBadge = (status) => {
     switch (status) {
+      case "completed":
+        return (
+          <div className="flex items-center gap-2 bg-amber-500/20 text-amber-400 px-3 py-1.5 rounded-md text-sm font-bold">
+            <CheckCircle size={16} /> Completed
+          </div>
+        );
       case "accepted":
         return (
           <div className="flex items-center gap-2 bg-neonGreen/20 text-neonGreen px-3 py-1.5 rounded-md text-sm font-bold">
@@ -146,6 +177,20 @@ const StudentDashboard = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   {getStatusBadge(app.status)}
+                  {app.status === "completed" && (
+                    reviewStatuses[app._id]?.hasReviewed ? (
+                      <div className="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold px-3 py-1.5 rounded-md">
+                        <Star size={14} fill="currentColor" /> Reviewed
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setReviewModalApp(app)}
+                        className="flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/30 text-amber-400 text-xs font-bold px-3 py-1.5 rounded-md transition-all"
+                      >
+                        <Star size={14} /> Leave Review
+                      </button>
+                    )
+                  )}
                   <Link
                     to={`/chat?gigId=${app.gigId}&userId=${app.shopId}`}
                     className="bg-neonBlue/15 hover:bg-neonBlue/25 border border-neonBlue/40 text-neonBlue text-xs font-bold px-3 py-1.5 rounded-md"
@@ -155,6 +200,21 @@ const StudentDashboard = () => {
                 </div>
               </motion.div>
             ))
+          )}
+
+          {/* Review Modal */}
+          {reviewModalApp && (
+            <ReviewModal
+              isOpen={true}
+              onClose={() => setReviewModalApp(null)}
+              applicationId={reviewModalApp._id}
+              gigTitle={reviewModalApp.gigTitle}
+              revieweeName={reviewModalApp.shopName || "the job provider"}
+              onReviewSubmitted={() => {
+                setReviewModalApp(null);
+                fetchApplications();
+              }}
+            />
           )}
         </div>
 
