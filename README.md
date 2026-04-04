@@ -37,28 +37,33 @@ LocalGigHub is built for local-first hiring where shops can post gigs and studen
 
 ## Screenshots
 
-Current visuals from the project assets:
+Landing and authentication:
 
-![Landing Hero](client/public/images/last_hero.webp)
-![Business Graphic](client/public/images/business-desktop-870-x1.webp)
+![Landing Hero](docs/screenshots/01-landing-hero.png)
+![Login Screen](docs/screenshots/02-login.png)
+![Signup Screen](docs/screenshots/03-signup.png)
 
-Product screenshot gallery (to enable):
+Marketplace and discovery:
 
-Add your captured app screenshots in `docs/screenshots/` with these exact filenames:
+![Marketplace Map View](docs/screenshots/04-marketplace-map.png)
+![Marketplace Cards View](docs/screenshots/05-marketplace-cards.png)
+![Gig Details](docs/screenshots/11-gig-details.png)
 
-- 01-landing-hero.png
-- 02-login.png
-- 03-signup.png
-- 04-marketplace-map.png
-- 05-marketplace-cards.png
-- 06-gig-details.png
-- 07-shop-post-gig-modal.png
-- 08-ai-pricing-assistant.png
-- 09-demand-prediction.png
-- 10-shop-dashboard.png
-- 11-chat-dual-view.png
+Shop dashboard and AI workflow:
 
-After these files are added and pushed, the gallery will render correctly on GitHub.
+![Post New Gig Modal (Empty)](docs/screenshots/06-shop-post-gig-empty.png)
+![Post New Gig Modal (Filled)](docs/screenshots/07-shop-post-gig-filled.png)
+![AI Pricing Assistant](docs/screenshots/08-ai-pricing-assistant.png)
+![Demand Prediction](docs/screenshots/09-demand-prediction.png)
+![Shop Dashboard](docs/screenshots/10-shop-dashboard.png)
+
+Communication:
+
+![Dual Chat View](docs/screenshots/13-chat-dual-view.png)
+
+Additional interaction:
+
+![Apply for Gig Modal](docs/screenshots/12-apply-gig-modal.png)
 
 ## Tech Stack
 
