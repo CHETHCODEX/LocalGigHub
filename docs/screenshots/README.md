@@ -1,10 +1,17 @@
 # Screenshots
 
-Add product screenshots in this folder with the following names:
+Place project screenshots in this folder using the exact filenames below.
 
-- `home.png`
-- `marketplace.png`
-- `chat.png`
-- `notifications.png`
+- 01-landing-hero.png
+- 02-login.png
+- 03-signup.png
+- 04-marketplace-map.png
+- 05-marketplace-cards.png
+- 06-gig-details.png
+- 07-shop-post-gig-modal.png
+- 08-ai-pricing-assistant.png
+- 09-demand-prediction.png
+- 10-shop-dashboard.png
+- 11-chat-dual-view.png
 
-These files are referenced by the root project README.
+These files are referenced by the root README screenshot gallery.
